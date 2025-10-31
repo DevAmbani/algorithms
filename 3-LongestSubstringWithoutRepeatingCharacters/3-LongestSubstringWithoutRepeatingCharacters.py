@@ -1,14 +1,17 @@
-# Last updated: 10/30/2025, 12:57:24 PM
+# Last updated: 10/31/2025, 11:24:13 AM
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        l, r = 0, 0
-        maxlen = 0
-        seen = set()
+    def characterReplacement(self, s: str, k: int) -> int:
+        count = {}
+        l = 0
+        res = 0
 
-        for r in range(0, len(s)):
-            while s[r] in seen:
-                seen.remove(s[l])
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r], 0)
+
+            if (r-l+1) - max(count.values()) > k:
+                count[s[l]] = count[s[l]] - 1
                 l += 1
-            seen.add(s[r])
-            maxlen = max(maxlen, r-l+1)
-        return maxlen
+
+            res = max(res, r-l+1)
+            
+        return res
