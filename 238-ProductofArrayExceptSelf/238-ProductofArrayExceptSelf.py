@@ -1,24 +1,13 @@
-# Last updated: 5/18/2026, 9:59:11 PM
+# Last updated: 5/18/2026, 10:28:53 PM
 1class Solution:
-2    def productExceptSelf(self, nums: List[int]) -> List[int]:
-3        prefix, suffix = 1, 1
-4        forward = [1] * len(nums)
-5        reverse = [1] * len(nums)
-6        ans = [1] * len(nums)
-7
-8        for i in range(len(nums)):
-9            forward[i] = prefix
-10            prefix *= nums[i]
-11            
-12
-13        for i in range(len(nums)-1, -1, -1):
-14            reverse[i] = suffix
-15            suffix *= nums[i]
-16            
-17
-18        for i in range(len(nums)):
-19            ans[i] = forward[i] * reverse[i]
-20
-21        print(forward)
-22        print(reverse)
-23        return ans
+2    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+3        count = defaultdict(int)
+4
+5        for n in nums:
+6            count[n] += 1
+7        
+8        sorted_count = sorted(count.items(), key= lambda x: x[1], reverse=True)
+9        ans = [item[0] for item in sorted_count]
+10        finalans = ans[:k]
+11
+12        return finalans  
