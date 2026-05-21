@@ -1,20 +1,28 @@
-# Last updated: 5/21/2026, 11:31:31 AM
+# Last updated: 5/21/2026, 3:08:24 PM
 1class Solution:
-2    def isPalindrome(self, s: str) -> bool:
-3        
-4        cleaned_s = ""
-5
-6        for c in s:
-7            if c.isalnum():
-8                c = c.lower()
-9                cleaned_s += c
-10
-11        l, r = 0, len(cleaned_s)-1
-12        while l < r:
-13            if cleaned_s[l] != cleaned_s[r]:
-14                return False
-15
-16            l += 1
-17            r -= 1
-18
-19        return True
+2    def threeSum(self, nums: list[int]) -> list[list[int]]:
+3        sorted_nums = sorted(nums)
+4        ans = []
+5        seen = set()
+6
+7        for i in range(len(sorted_nums)-2):
+8            l = i+1
+9            r = len(sorted_nums) - 1
+10            n = sorted_nums[i]
+11
+12            while l < r:
+13                total = sorted_nums[l] + sorted_nums[r] + n
+14                
+15                if total == 0:
+16                    adder = [n, sorted_nums[l], sorted_nums[r]]
+17                    if tuple(adder) not in seen:
+18                        seen.add(tuple(adder))
+19                        ans.append(adder)
+20                    l += 1
+21                    r -= 1
+22                elif total < 0:
+23                    l += 1
+24                elif total > 0:
+25                    r -= 1
+26            
+27        return ans
