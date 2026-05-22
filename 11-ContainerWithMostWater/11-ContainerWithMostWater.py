@@ -1,4 +1,4 @@
-# Last updated: 5/22/2026, 11:43:20 AM
+# Last updated: 5/22/2026, 11:43:38 AM
 1class Solution:
 2    def isValid(self, s: str) -> bool:
 3        adder = []
@@ -22,8 +22,5 @@
 21                else:
 22                    adder.pop()
 23        
-24        if len(adder) == 0:
-25            return True
-26        else:
-27            return False
-28
+24        return len(adder) == 0
+25
