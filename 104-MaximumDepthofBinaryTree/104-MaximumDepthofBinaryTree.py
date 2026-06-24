@@ -1,4 +1,4 @@
-# Last updated: 6/24/2026, 8:54:25 AM
+# Last updated: 6/24/2026, 8:54:45 AM
 1# Definition for a binary tree node.
 2# class TreeNode:
 3#     def __init__(self, val=0, left=None, right=None):
@@ -19,6 +19,4 @@
 18        order(root)
 19        print(values)
 20
-21        for i in range(len(values)):
-22            if i+1 == k:
-23                return values[i]
+21        return values[k-1]
