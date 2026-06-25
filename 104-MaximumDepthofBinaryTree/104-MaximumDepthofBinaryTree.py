@@ -1,30 +1,27 @@
-# Last updated: 6/25/2026, 9:31:31 AM
+# Last updated: 6/25/2026, 10:53:46 AM
 1class Solution:
-2    def numIslands(self, grid: List[List[str]]) -> int:
-3        count = 0
-4        rows = len(grid)
-5        elements = len(grid[0])
+2    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+3        rows = len(grid)
+4        elements = len(grid[0])
+5        maxarea = 0
 6
 7        def dfs(row, element):
-8            if row >= rows or row < 0:
-9                return
-10            if element >= elements or element < 0:
-11                return
-12            if grid[row][element] == '0':
-13                return
+8            if row < 0 or row >= rows:
+9                return 0
+10            if element < 0 or element >= elements:
+11                return 0
+12            if grid[row][element] == 0:
+13                return 0
 14            
-15            if grid[row][element] == '1':
-16                grid[row][element] = '0'
-17
-18            dfs(row+1, element)
-19            dfs(row-1, element)      
-20            dfs(row, element+1)
-21            dfs(row, element-1)
-22
-23        for row in range(len(grid)):
-24            for element in range(len(grid[0])):
-25                if grid[row][element] == '1':
-26                    count += 1
-27                    dfs(row, element)
-28        
-29        return count
+15            grid[row][element] = 0
+16            
+17            return 1 + dfs(row+1, element) + dfs(row-1, element) + dfs(row, element+1) + dfs(row, element-1)
+18
+19        for row in range(len(grid)):
+20            for element in range(len(grid[0])):
+21                if grid[row][element] == 1:
+22                    area = dfs(row, element)
+23                    maxarea = max(maxarea, area)
+24        
+25        return maxarea
+26        
