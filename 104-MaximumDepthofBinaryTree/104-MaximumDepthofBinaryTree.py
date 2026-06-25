@@ -1,20 +1,22 @@
-# Last updated: 6/24/2026, 10:36:24 AM
-1# Definition for a binary tree node.
-2# class TreeNode:
-3#     def __init__(self, val=0, left=None, right=None):
-4#         self.val = val
-5#         self.left = left
-6#         self.right = right
-7class Solution:
-8    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-9        if not preorder or not inorder:
-10            return None
-11        
-12        root = TreeNode(preorder[0])
-13        mid = inorder.index(preorder[0])
-14
-15        root.left = self.buildTree(preorder[1:mid+1], inorder[:mid])
-16        root.right = self.buildTree(preorder[mid+1:], inorder[mid+1:])
-17
-18        return root
+# Last updated: 6/24/2026, 7:19:12 PM
+1import heapq
+2
+3class Solution:
+4    def lastStoneWeight(self, stones: List[int]) -> int:
+5        heap = []
+6
+7        for i in range(len(stones)):
+8            heapq.heappush(heap, -stones[i])
+9        
+10        while len(heap) > 1:
+11            first = heapq.heappop(heap)
+12            second = heapq.heappop(heap)
+13
+14            if first != second:
+15                heapq.heappush(heap, first-second)
+16        
+17        if len(heap) == 0:
+18            return 0
 19        
+20        return -heapq.heappop(heap)
+21        
