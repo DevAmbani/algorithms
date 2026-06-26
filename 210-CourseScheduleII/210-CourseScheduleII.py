@@ -1,4 +1,4 @@
-# Last updated: 6/26/2026, 9:01:46 AM
+# Last updated: 6/26/2026, 9:04:14 AM
 1from collections import defaultdict
 2
 3class Solution:
@@ -34,4 +34,4 @@
 33            if dfs(course) is False:
 34                return []
 35        
-36        return visited
+36        return visited[::1]
