@@ -1,36 +1,28 @@
-# Last updated: 6/26/2026, 8:34:12 AM
-1from collections import defaultdict
+# Last updated: 6/26/2026, 5:30:54 PM
+1from collections import defaultdict, deque
 2
 3class Solution:
 4    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-5        """
-6        UNVISITED (0) → never been here
-7        VISITING  (1) → currently in our DFS path (on the call stack)
-8        VISITED   (2) → fully explored, confirmed no cycle below it
-9        """
-10        state = [0] * numCourses
-11        courseSelection = defaultdict(list)
-12
-13        for course, depedency in prerequisites:
-14            courseSelection[course].append(depedency)
-15
-16        def dfs(course):
-17            if state[course] == 1:
-18                return False
-19            if state[course] == 2:
-20                return True
+5        graph = defaultdict(list)        
+6        indegree = [0] * numCourses      
+7
+8        for course, prereq in prerequisites:
+9            graph[prereq].append(course)
+10            indegree[course] += 1
+11
+12        queue = deque()                  
+13        for i in range(numCourses):
+14            if indegree[i] == 0:
+15                queue.append(i)
+16
+17        result = []
+18        while queue:
+19            node = queue.popleft()
+20            result.append(node)
 21
-22            state[course] = 1
-23
-24            for depedency in courseSelection[course]:
-25                if dfs(depedency) is False:
-26                    return False
-27            
-28            state[course] = 2
-29            return True
-30        
-31        for course in range(numCourses):
-32            if dfs(course) is False:
-33                return False
-34        
-35        return True
+22            for neighbor in graph[node]:
+23                indegree[neighbor] -= 1
+24                if indegree[neighbor] == 0:
+25                    queue.append(neighbor)
+26
+27        return len(result) == numCourses
