@@ -1,44 +1,32 @@
-# Last updated: 6/28/2026, 2:37:33 PM
-1class Solution:
-2    def minCostConnectPoints(self, points: List[List[int]]) -> int:
-3        n = len(points)
-4        parent = list(range(n))
-5        rank = [0] * n
-6
-7        def find(node):
-8            if node == parent[node]:
-9                return node
-10            if node != parent[node]:
-11                return find(parent[node])
-12        
-13        def union(x,y):
-14            px = find(x)
-15            py = find(y)
+# Last updated: 6/28/2026, 9:32:29 PM
+1import heapq
+2from collections import defaultdict
+3
+4class Solution:
+5    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+6        graph = defaultdict(list)
+7        dist = defaultdict(int)
+8        
+9        for u,v,w in times:
+10            graph[u].append([v,w])
+11
+12        for i in (range(1, n+1)):
+13            dist[i] = float('inf')
+14        
+15        dist[k] = 0
 16
-17            if px == py:
-18                return False
-19            
-20            if rank[px] > rank[py]:
-21                parent[py] = px
-22            elif rank[py] > rank[px]:
-23                parent[px] = py
-24            else:
-25                parent[py] = px
-26                rank[px] += 1
-27            
-28            return True
+17        heap = [(0,k)]
+18
+19        while heap:
+20            distance, node = heapq.heappop(heap)
+21            if distance > dist[node]:
+22                continue
+23            
+24            for neighbor, weight in graph[node]:
+25                new_distance = dist[node] + weight
+26                if new_distance < dist[neighbor]:
+27                    dist[neighbor] = new_distance
+28                    heapq.heappush(heap, (new_distance, neighbor))
 29        
-30        cost = []
-31        for i in range(n):
-32            for j in range(i+1, n):
-33                price = abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
-34                cost.append([price, i, j])
-35        
-36        cost.sort()
-37        ans = 0
-38
-39        for price, i, j in cost:
-40            if union(i, j):
-41                ans += price
-42        
-43        return ans
+30        max_dist = max(dist.values())
+31        return max_dist if max_dist < float('inf') else -1
