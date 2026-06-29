@@ -1,39 +1,28 @@
-# Last updated: 6/29/2026, 10:14:40 AM
-1class Solution:
-2    def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
-3        matrix = []
-4
-5        for rows in range(n):
-6            row = []
-7            for cols in range(n):
-8                if rows == cols:
-9                    row.append(0)
-10                else:
-11                    row.append(float('inf'))
-12            matrix.append(row)
-13
-14        for src, dest, cost in edges:
-15            matrix[src][dest] = cost
-16            matrix[dest][src] = cost
-17        
-18        for k in range(n):
-19            for i in range(n):
-20                for j in range(n):
-21                    if matrix[i][k] + matrix[k][j] < matrix[i][j]:
-22                        matrix[i][j] = matrix[i][k] + matrix[k][j]
-23        
-24        ans = -1
-25        ans_count = float('inf')
-26        for row in range(n):
-27            count = 0
-28            for col in range(n):
-29                if matrix[row][col] <= distanceThreshold:
-30                    count += 1
-31            
-32            if count <= ans_count:
-33                ans_count = count
-34                ans = row
-35        
-36        return ans
-37
-38
+# Last updated: 6/29/2026, 1:39:43 PM
+1from collections import deque
+2
+3class Solution:
+4    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+5        directions = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,-1],[-1,1]]
+6        visited = set()
+7        queue = deque()
+8        start = [0,0,1]
+9        queue.append(start)
+10        visited.add((0,0))
+11        n = len(grid)-1
+12
+13        if grid[0][0] == 1 or grid[n][n] == 1:
+14            return -1
+15
+16        while queue:
+17            r, c, distance = queue.popleft()
+18            if r == n and c == n:
+19                return distance
+20            for dr, dc in directions:
+21                nr , nc = r+dr, c+dc
+22                if (0 <= nr <= n) and (0 <= nc <= n) and ((nr,nc) not in visited) and (grid[nr][nc] == 0):
+23                    queue.append([nr, nc, distance+1])
+24                    visited.add((nr,nc))
+25        
+26        return -1
+27            
