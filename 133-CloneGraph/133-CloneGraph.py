@@ -1,4 +1,4 @@
-# Last updated: 7/14/2026, 5:16:12 PM
+# Last updated: 7/14/2026, 5:17:29 PM
 1class Solution:
 2    def climbStairs(self, n: int) -> int:
 3        if n <= 2:
