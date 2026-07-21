@@ -1,21 +1,24 @@
-# Last updated: 7/17/2026, 12:45:46 PM
+# Last updated: 7/21/2026, 5:32:33 PM
 1class Solution:
-2    def rob(self, nums: List[int]) -> int:
-3        if len(nums) == 0:
-4            return 0
-5        if len(nums) == 1:
-6            return nums[0]
-7        if len(nums) == 2:
-8            return max(nums[0], nums[1])
-9
-10        def dp(nums):
-11            dp = [0] * len(nums)
-12            dp[0] = nums[0]
-13            dp[1] = max(nums[0], nums[1])
-14
-15            for i in range(2, len(nums)):
-16                dp[i] = max(dp[i-1], dp[i-2]+nums[i])
-17            
-18            return dp[len(nums)-1]
-19            
-20        return max(dp(nums[1:]),dp(nums[:-1]))
+2    def longestPalindrome(self, s: str) -> str:
+3        longest = ""
+4
+5        def expand(l, r):
+6            while l >= 0 and r < len(s) and s[l] == s[r]:
+7                l -= 1
+8                r+= 1
+9            
+10            return s[l+1:r]
+11        
+12        for i in range(len(s)):
+13            even = expand(i, i)
+14            odd = expand(i, i+1)
+15
+16            if len(even) > len(longest):
+17                longest = even
+18            if len(odd) > len(longest):
+19                longest = odd
+20        
+21        return longest
+22
+23
